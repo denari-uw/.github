@@ -1,5 +1,3 @@
-![Denari Logo](https://github.com/user-attachments/assets/008d8196-b284-4273-bb8c-d1ec80f97073)
-
 ## Project Overview
 
 Welcome to the **Retrieval-Augmented Generation (RAG) Pipeline Discovery and Optimization** project! You are now part of an exciting collaboration between Denari and UW Madison, where you'll design and optimize a cutting-edge RAG pipeline tailored for contextually accurate and time-sensitive data synthesis.
