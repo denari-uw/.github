@@ -68,3 +68,200 @@ Leverage the power of **OpenAI's embedding models** to transform and utilize dat
 *Empowering the next generation of AI innovators in the accounting industry.*
 
 ---
+
+# Benchmarking System Integration Guide
+
+This document outlines how your system (Remus or Romulus) will be evaluated using our benchmarking framework.
+
+## Input Format
+
+Your system will receive JSON input via stdin in the following format:
+
+```json
+{
+  "question": "The full question text goes here?",
+  "options": [
+    "A. First option",
+    "B. Second option",
+    "C. Third option",
+    "D. Fourth option"
+  ]
+}
+```
+
+## Expected Output Format
+
+Your system should output JSON to stdout in the following format:
+
+```json
+{
+  "answer": "1",  // A number between 1-4 corresponding to the correct option
+  "explanation": "Your detailed explanation of why this answer is correct"
+  "citations": ["citation text here", ...]
+}
+```
+
+Note:
+- The `answer` field should be a string with a single number (1, 2, 3, or 4) that corresponds to the option index
+- The `explanation` should provide comprehensive reasoning for the selected answer
+- the `citations` field should be an array of strings
+
+## Technical Requirements
+
+- **Remus (Python)**: Should implement `main.py` that accepts stdin input and returns JSON output
+- **Romulus (TypeScript)**: Should implement `src/index.ts` that accepts stdin input and returns JSON output
+- Both systems must handle the complete format exactly as specified above
+- Response time will be measured but is not a primary evaluation criterion
+
+## Example
+
+**Input:**
+```json
+{
+  "question": "Which of the following standards-setting bodies has authority to issue auditing standards for financial statement audits of nonissuers?",
+  "options": [
+    "A. I only",
+    "B. II only",
+    "C. Both I and II",
+    "D. Neither I nor II"
+  ]
+}
+```
+
+**Expected Output:**
+```json
+{
+  "answer": "1",
+  "explanation": "The Auditing Standards Board (ASB) has authority to issue auditing standards for nonissuers. While the Public Company Accounting Oversight Board (PCAOB) sets standards for audits of publicly traded entities (issuers), the ASB is responsible for setting standards for nonissuers."
+}
+```
+
+Training data has been provided to help you understand the question format, correct answers, and expected explanation quality.
+
+
+# Stdin/Stdout Implementation Examples
+
+## For Remus (Python)
+
+Here's a minimal implementation example for `main.py`:
+
+```python
+import json
+import sys
+
+def main():
+    # Read JSON input from stdin
+    input_data = sys.stdin.read().strip()
+    
+    try:
+        # Parse JSON
+        data = json.loads(input_data)
+        question = data["question"]
+        options = data["options"]
+        
+        # Your actual implementation would go here
+        # This is just a placeholder example
+        answer = "1"  # Replace with your actual logic
+        explanation = f"This is the explanation for the answer to the question: {question}"
+        
+        # Format and output JSON response
+        response = {
+            "answer": answer,
+            "explanation": explanation
+        }
+        
+        # Write to stdout
+        sys.stdout.write(json.dumps(response))
+        sys.stdout.flush()
+        
+    except Exception as e:
+        # Handle errors
+        error_response = {
+            "error": str(e)
+        }
+        sys.stderr.write(json.dumps(error_response))
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
+```
+
+## For Romulus (TypeScript)
+
+Here's a minimal implementation example for `src/index.ts`:
+
+```typescript
+import * as readline from 'readline';
+
+interface Question {
+  question: string;
+  options: string[];
+}
+
+interface Response {
+  answer: string;
+  explanation: string;
+}
+
+// Create interface for reading from stdin
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false
+});
+
+let inputData = '';
+
+// Read input line by line
+rl.on('line', (line) => {
+  inputData += line;
+});
+
+// Process data when stdin closes
+rl.on('close', () => {
+  try {
+    // Parse JSON
+    const data = JSON.parse(inputData) as Question;
+    const { question, options } = data;
+    
+    // Your actual implementation would go here
+    // This is just a placeholder example
+    const answer = "1";  // Replace with your actual logic
+    const explanation = `This is the explanation for the answer to the question: ${question}`;
+    
+    // Format and output JSON response
+    const response: Response = {
+      answer,
+      explanation
+    };
+    
+    // Write to stdout
+    process.stdout.write(JSON.stringify(response));
+    
+  } catch (error) {
+    // Handle errors
+    const errorResponse = {
+      error: error instanceof Error ? error.message : String(error)
+    };
+    process.stderr.write(JSON.stringify(errorResponse));
+    process.exit(1);
+  }
+});
+```
+
+## Testing Your Implementation
+
+You can test your implementation with these commands:
+
+### For Remus:
+```bash
+echo '{"question":"Which of the following is correct?","options":["A. Option 1","B. Option 2","C. Option 3","D. Option 4"]}' | python main.py
+```
+
+### For Romulus:
+```bash
+echo '{"question":"Which of the following is correct?","options":["A. Option 1","B. Option 2","C. Option 3","D. Option 4"]}' | npx ts-node src/index.ts
+```
+
+The benchmarking system will use this exact mechanism to send questions to your system and receive responses.
+
