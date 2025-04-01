@@ -132,7 +132,8 @@ Note:
 ```json
 {
   "answer": "1",
-  "explanation": "The Auditing Standards Board (ASB) has authority to issue auditing standards for nonissuers. While the Public Company Accounting Oversight Board (PCAOB) sets standards for audits of publicly traded entities (issuers), the ASB is responsible for setting standards for nonissuers."
+  "explanation": "The Auditing Standards Board (ASB) has authority to issue auditing standards for nonissuers. While the Public Company Accounting Oversight Board (PCAOB) sets standards for audits of publicly traded entities (issuers), the ASB is responsible for setting standards for nonissuers.",
+  "citations": ["...", "..."]
 }
 ```
 
