@@ -142,7 +142,7 @@ Training data has been provided to help you understand the question format, corr
 
 # Stdin/Stdout Implementation Examples
 
-## For Remus (Python)
+## For Romulus (Python)
 
 Here's a minimal implementation example for `main.py`:
 
@@ -187,7 +187,7 @@ if __name__ == "__main__":
     main()
 ```
 
-## For Romulus (TypeScript)
+## For Remus (TypeScript)
 
 Here's a minimal implementation example for `src/index.ts`:
 
@@ -254,12 +254,12 @@ rl.on('close', () => {
 
 You can test your implementation with these commands:
 
-### For Remus:
+### For Romulus:
 ```bash
 echo '{"question":"Which of the following is correct?","options":["A. Option 1","B. Option 2","C. Option 3","D. Option 4"]}' | python main.py
 ```
 
-### For Romulus:
+### For Remus:
 ```bash
 echo '{"question":"Which of the following is correct?","options":["A. Option 1","B. Option 2","C. Option 3","D. Option 4"]}' | npx ts-node src/index.ts
 ```
